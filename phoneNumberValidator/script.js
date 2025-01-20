@@ -3,9 +3,7 @@ const check = document.getElementById('check-btn');
 const clear = document.getElementById('clear-btn');
 const recordList = document.getElementById('results-div');
 const result = document.getElementById('result');
-const regexNum = /^\s*(?:\+?1)?[ -]?\(?(?:[2-9]\d{2})\)?[ -]?\d{3}[ -]?\d{4}\s*$/
-
-
+const regexNum = /^\s*(?:\+?1)?[ -]?\((?:[2-9]\d{2})\)[ -]?\d{3}[ -]?\d{4}\s*$|^\s*(?:\+?1)?[ -]?(?:[2-9]\d{2})[ -]?\d{3}[ -]?\d{4}\s*$/
 
 const clearRecord = () => {
     recordList.innerHTML = ``
