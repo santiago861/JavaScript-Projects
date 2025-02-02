@@ -84,29 +84,21 @@ const getHighestDuplicates = (arr) => {
 };
 
 const detectFullHouse = (arr) => {
-  let count = {};
-  let keys = []
-  for (let elem of diceValuesArr) {
-    if (count[elem]) {
-      count[elem] += 1;
-    } else {
-      count[elem] = 1
-    }
+  const counts = {};
+
+  for (const num of arr) {
+    counts[num] = counts[num] ? counts[num] + 1 : 1;
   }
-  for (let key in count) {
-    keys.push(key);
+
+  const hasThreeOfAKind = Object.values(counts).includes(3);
+  const hasPair = Object.values(counts).includes(2);
+
+  if (hasThreeOfAKind && hasPair) {
+    updateRadioOption(2, 25);
   }
-  if (keys.length === 2) {
-    for (let i = 0; i < keys.length; i++) {
-      if ((count[keys[i]] === 3 && count[keys[i + 1]] === 2) || (count[keys[i]] === 2 && count[keys[i + 1]] === 3)) {
-        updateRadioOption(2, 25);
-      }
-    }
-  }
-  
-  console.log(keys)
-  console.log(count)
-}
+
+  updateRadioOption(5, 0);
+};
 
 const resetRadioOptions = () => {
   scoreInputs.forEach((input) => {
@@ -138,6 +130,31 @@ const resetGame = () => {
   resetRadioOptions();
 };
 
+const checkForStraights = (arr) => {
+  let incl4 = false;
+  let incl5 = false;
+
+  if ((arr.includes(1) && arr.includes(2) && arr.includes(3) && arr.includes(4))
+    || (arr.includes(2) && arr.includes(3) && arr.includes(4) && arr.includes(5))
+    || (arr.includes(3) && arr.includes(4) && arr.includes(5) && arr.includes(6))) {
+    incl4 = true;
+  }
+  if ((arr.includes(1) && arr.includes(2) && arr.includes(3) && arr.includes(4) && arr.includes(5))
+    || (arr.includes(2) && arr.includes(3) && arr.includes(4) && arr.includes(5) && arr.includes(6))) {
+    incl5 = true;
+  }
+  if (incl4) {
+    updateRadioOption(3, 30);
+    updateRadioOption(5, 0);
+  } 
+  if (incl5) {
+    updateRadioOption(3, 30);
+    updateRadioOption(4, 40);
+    updateRadioOption(5, 0);
+  }
+  updateRadioOption(5, 0);
+}
+
 rollDiceBtn.addEventListener("click", () => {
   if (rolls === 3) {
     alert("You have made three rolls this round. Please select a score.");
@@ -147,7 +164,8 @@ rollDiceBtn.addEventListener("click", () => {
     rollDice();
     updateStats();
     getHighestDuplicates(diceValuesArr);
-    detectFullHouse(diceValuesArr)
+    detectFullHouse(diceValuesArr);
+    checkForStraights(diceValuesArr);
   }
 });
 
