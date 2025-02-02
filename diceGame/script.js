@@ -84,7 +84,8 @@ const getHighestDuplicates = (arr) => {
 };
 
 const detectFullHouse = (arr) => {
-  const count = {};
+  let count = {};
+  let keys = []
   for (let elem of diceValuesArr) {
     if (count[elem]) {
       count[elem] += 1;
@@ -92,10 +93,19 @@ const detectFullHouse = (arr) => {
       count[elem] = 1
     }
   }
-  if () {
-    updateRadioOption(2, 25);
+  for (let key in count) {
+    keys.push(key);
   }
-  updateRadioOption(5, 0);
+  if (keys.length === 2) {
+    for (let i = 0; i < keys.length; i++) {
+      if ((count[keys[i]] === 3 && count[keys[i + 1]] === 2) || (count[keys[i]] === 2 && count[keys[i + 1]] === 3)) {
+        updateRadioOption(2, 25);
+      }
+    }
+  }
+  
+  console.log(keys)
+  console.log(count)
 }
 
 const resetRadioOptions = () => {
