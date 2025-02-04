@@ -93,7 +93,7 @@ h1 {
     border-radius: 10px;
     text-align: right;
     padding: 30px 30px;
-    font-size: 20px;
+    font-size: 23px;
 }
 .cash-register-btn {
     height: 50px;
@@ -122,4 +122,8 @@ h1 {
 
 .close {
     background-color: red;
+}
+
+#change-due {
+    font-size: 21px;
 }
