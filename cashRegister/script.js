@@ -12,15 +12,14 @@ let cid = [
   ['TWENTY', 60],
   ['ONE HUNDRED', 100]
 ];
-const currencyValues = [0.01, 0.05, 0.1, 0.25, 1, 5, 10, 20, 100];
-const reversedCurrencyValues = currencyValues.slice().reverse();
-let reversedCid = cid.slice().reverse();
 
-let reversedQuantityCurrencies = [];
-for (let i = 0; i < reversedCurrencyValues.length; i++) {
-  reversedQuantityCurrencies.push(Math.round(reversedCid[i][1] / reversedCurrencyValues[i]));
+
+const currencyValues = [0.01, 0.05, 0.1, 0.25, 1, 5, 10, 20, 100];
+
+let quantityCurrencies = [];
+for (let i = 0; i < currencyValues.length; i++) {
+  quantityCurrencies.push(Math.round(cid[i][1] / currencyValues[i]));
 }
-console.log(reversedQuantityCurrencies);
 
 
 const changeText = document.getElementById('change-due');
@@ -32,12 +31,15 @@ textPrice.textContent = `Total: $${price}`;
 
 const cidContainer = document.getElementById('cid');
 
+
 const verifyInput = (inp) => {
   const entry = input.value;
   if (!entry) {
     alert('Please, enter some money');
   } else if(entry < price) {
     alert('Customer does not have enough money to purchase the item');
+  } else if (entry > cid.reduce((acc, el) => acc + el[1], 0)) {
+    displayStatus()
   } else {
     return true;
   }
@@ -52,11 +54,27 @@ const updateScreenCashInDrawer = (arr) => {
 updateScreenCashInDrawer(cid);
 
 const calculateChange = (customerMoney) => {
-  const changeDue = customerMoney - price;
-  // for (let i = 0; i < reversedCid.length; i++) {
-  //   if changeDue
-  // }
-  // console.log(reversedCid)
+  let changeDue = customerMoney - price;
+
+  for (let i = (cid.length) - 1; i >= 0; i--) {
+    let count = quantityCurrencies[i];
+    let coinsUsed = 0;
+    
+    if (changeDue > currencyValues[i]) {
+      while (count > 0 && changeDue > currencyValues[i]) {
+        console.log(cid[i][0])
+        changeDue -= currencyValues[i];
+        count -= 1;
+        coinsUsed += 1;
+        quantityCurrencies[i] = count;
+        cid[i][1] = quantityCurrencies[i] * currencyValues[i]
+      }
+      console.log(changeDue)
+      changeText.innerHTML += `<div>${cid[i][0]}: $${currencyValues[i] * coinsUsed}</div>`
+      console.log(quantityCurrencies)
+    }
+  }
+  
 }
 
 const displayStatus = () => {
@@ -65,7 +83,7 @@ const displayStatus = () => {
     changeText.textContent = 'Status: INSUFFICIENT_FUNDS';
   } else if (totalCashInDrawer === input.value - price) {
     changeText.textContent = 'Status: CLOSED';
-  } else if (totalCashInDrawer > input.value - price) { // with the change due in coins and bills sorted in highest to lowest order.
+  } else if (totalCashInDrawer > input.value - price) {
     changeText.textContent = 'Status: OPEN';
   }
   console.log(input.value - price)
@@ -78,7 +96,7 @@ purchaseBtn.addEventListener('click', () => {
   if (verifyInput(input)) {
     displayStatus()
     calculateChange(input.value);
-    
+    updateScreenCashInDrawer(cid);  
   }
 })
 input.addEventListener('keydown', (e) => {
@@ -87,11 +105,7 @@ input.addEventListener('keydown', (e) => {
     if (verifyInput(input)) {
       displayStatus()
       calculateChange(input.value);
-      
+      updateScreenCashInDrawer(cid);
     }
   }
 })
-
-
-// mi idea fue invertir el dinero en caja e invertir la cantidad de currency que tenemos de cada mondeda, de ahí vamos a iterar y verificar si el cambio
-// es menor al valor de cada currency y si tenemos unidades en caja
