@@ -54,14 +54,14 @@ const updateScreenCashInDrawer = (arr) => {
 updateScreenCashInDrawer(cid);
 
 const calculateChange = (customerMoney) => {
-  let changeDue = customerMoney - price;
+  let changeDue = customerMoney - price + 0.001;
 
   for (let i = (cid.length) - 1; i >= 0; i--) {
     let count = quantityCurrencies[i];
     let coinsUsed = 0;
     
-    if (changeDue > currencyValues[i]) {
-      while (count > 0 && changeDue > currencyValues[i]) {
+    if (changeDue >= currencyValues[i]) {
+      while (count > 0 && changeDue >= currencyValues[i]) {
         console.log(cid[i][0])
         changeDue -= currencyValues[i];
         count -= 1;
@@ -70,21 +70,27 @@ const calculateChange = (customerMoney) => {
         cid[i][1] = quantityCurrencies[i] * currencyValues[i]
       }
       console.log(changeDue)
-      changeText.innerHTML += `<div>${cid[i][0]}: $${currencyValues[i] * coinsUsed}</div>`
+      changeText.innerHTML += `<p>${cid[i][0]}: $${currencyValues[i] * coinsUsed}</p>`
       console.log(quantityCurrencies)
+    } else {
+      console.log('some error')
     }
   }
   
 }
 
 const displayStatus = () => {
+  changeText.innerHTML = ''
   const totalCashInDrawer = cid.reduce((acc, el) => acc + el[1], 0);
   if (totalCashInDrawer < input.value - price) {
-    changeText.textContent = 'Status: INSUFFICIENT_FUNDS';
+    changeText.innerHTML += `<p>Status: INSUFFICIENT_FUNDS</p>`;
   } else if (totalCashInDrawer === input.value - price) {
-    changeText.textContent = 'Status: CLOSED';
+    changeText.innerHTML += `<p>Status: CLOSED</p>`;
   } else if (totalCashInDrawer > input.value - price) {
-    changeText.textContent = 'Status: OPEN';
+    changeText.innerHTML += `<p>Status: OPEN</p>`;
+  } 
+  if (input.value == price) {
+    changeText.textContent = 'No change due - customer paid with exact cash';
   }
   console.log(input.value - price)
 }
