@@ -1,28 +1,10 @@
 // return change to the customer based on the price of the item, the amount of cash provided by the customer, and the amount of cash in the cash drawer
-// let price = 1.87;
-let price = 19.5;
-let cid = [
-  ['PENNY', 1.01],
-  ['NICKEL', 2.05],
-  ['DIME', 3.1],
-  ['QUARTER', 4.25],
-  ['ONE', 90],
-  ['FIVE', 55],
-  ['TEN', 20],
-  ['TWENTY', 60],
-  ['ONE HUNDRED', 100]
-];
-// let cid = [
-//   ['PENNY', 0.5],
-//   ['NICKEL', 0],
-//   ['DIME', 0],
-//   ['QUARTER', 0],
-//   ['ONE',0],
-//   ['FIVE',0],
-//   ['TEN',0],
-//   ['TWENTY',0],
-//   ['ONE HUNDRED', 0]
-// ];
+let price = 1.87;
+let cid = [['PENNY', 1.01], ['NICKEL', 2.05], ['DIME', 3.1], ['QUARTER', 4.25], ['ONE', 90], ['FIVE', 55], ['TEN', 20], ['TWENTY', 60], ['ONE HUNDRED', 100]];
+
+// let price = 19.5;
+// let cid = [["PENNY", 0.01], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 1], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]
+
 const currencyValues = [0.01, 0.05, 0.1, 0.25, 1, 5, 10, 20, 100];
 const changeText = document.getElementById('change-due');
 const input = document.getElementById('cash');
@@ -46,18 +28,15 @@ const verifyInput = () => {
   if (change === sumCashInDrawer){
     return true;
   } 
-  // console.log(`log de funcion verify input ${sumCashInDrawer}`)
-  // console.log(`this is input en verify input ${input.value}`)
-  // console.log(`${change}`)
   if (!inputValue) {
     alert('Please, enter some money');
   } else if(inputValue < price) {
     alert('Customer does not have enough money to purchase the item');
-  } else if (inputValue > sumCashInDrawer) {
+  } else if (change > sumCashInDrawer) {
     displayStatus()
   } else {
     return true;
-  } // 337.28
+  }
 }
 
 const updateScreenCashInDrawer = (arr) => {
@@ -69,35 +48,76 @@ const updateScreenCashInDrawer = (arr) => {
 }
 updateScreenCashInDrawer(cid);
 
+
+
+
+
+
+
+
+
+
 const calculateChange = (customerMoney) => {
   let changeDue = parseFloat((customerMoney - price).toFixed(2));
+  let possible = false;
+
+  if (changeDue == 0) {
+    possible = true;
+  }
 
   for (let i = (cid.length) - 1; i >= 0; i--) {
-    let coinsAvailable = quantityCurrencies[i];
-    let coinsUsed = 0;
-    console.log(`hola`)
-    
-    
-    if (changeDue >= currencyValues[i] && quantityCurrencies[i] != 0) { // --------------------------------------
-      console.log(cid[i][0])
-      while (coinsAvailable > 0 && changeDue >= currencyValues[i]) {
-        console.log('run')
-        coinsAvailable -= 1;
-        coinsUsed += 1;
-
-        quantityCurrencies[i] = coinsAvailable;
-        changeDue -= parseFloat(currencyValues[i].toFixed(2));
-        changeDue = parseFloat(changeDue.toFixed(2));
-      }
-      cid[i][1] = parseFloat((quantityCurrencies[i] * currencyValues[i]).toFixed(2));
-      
-      console.log(changeDue)
-      changeText.innerHTML += `<p>${cid[i][0]}: $${currencyValues[i] * coinsUsed}</p>`
-      console.log(quantityCurrencies)
+    let sumToLeft = 0
+    for (let j = i; j >= 0; j--) {
+      sumToLeft += cid[j][1];
     }
+    if (changeDue >= currencyValues[i] && sumToLeft >= changeDue) {
+      possible = true;
+    }
+  }
+  console.log(possible)
+
+
+
+  if (possible) {
+    for (let i = (cid.length) - 1; i >= 0; i--) {
+      let coinsAvailable = quantityCurrencies[i];
+      let coinsUsed = 0;
+      
+      if (changeDue >= currencyValues[i] && quantityCurrencies[i] != 0) { 
+        console.log(cid[i][0])
+        while (coinsAvailable > 0 && changeDue >= currencyValues[i]) {
+          // console.log('run')
+          coinsAvailable -= 1;
+          coinsUsed += 1;
+  
+          quantityCurrencies[i] = coinsAvailable;
+          changeDue -= parseFloat(currencyValues[i].toFixed(2));
+          changeDue = parseFloat(changeDue.toFixed(2));
+        }
+        cid[i][1] = parseFloat((quantityCurrencies[i] * currencyValues[i]).toFixed(2));
+        
+        console.log(changeDue)
+        changeText.innerHTML += `<p>${cid[i][0]}: $${currencyValues[i] * coinsUsed}</p>`
+        console.log(quantityCurrencies)
+      } else {
+        console.log(`${currencyValues[i]} no se uso`)
+      }
+    }
+  } else {
+    changeText.innerHTML = '';
+    changeText.innerHTML += `<p>Status: INSUFFICIENT_FUNDS</p>`;
+    console.log('JAJAJAJJAJAJJAJJAJAJA')
   }
   
 }
+
+
+
+
+
+
+
+
 
 const displayStatus = () => {
   changeText.innerHTML = ''
