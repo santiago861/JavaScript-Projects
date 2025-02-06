@@ -40,6 +40,9 @@ const verifyInput = () => {
   }
 }
 
+
+
+// function that updates the visual screen on the HTML
 const updateScreenCashInDrawer = (arr) => {
   cidContainer.innerHTML = '';
   for (let i = 0; i < cid.length; i++) {
@@ -47,13 +50,7 @@ const updateScreenCashInDrawer = (arr) => {
     cidContainer.innerHTML += `<div><span>${cid[i][0].charAt(0) + cid[i][0].slice(1).toLowerCase()}</span>: $${cid[i][1]} --- ${Math.round(quantity)} u</div>`
   } 
 }
-updateScreenCashInDrawer(cid);
-
-
-
-
-
-
+updateScreenCashInDrawer(cid); // call function to see the initial balance in the cash drawer
 
 
 
@@ -62,18 +59,22 @@ const calculateChange = (customerMoney) => {
   let changeDue = parseFloat((customerMoney - price).toFixed(2));
   let possible = false;
 
+// the flag possible was declared to verify if it is possible to return the change with the denominations available
+
   if (changeDue == 0) {
     possible = true;
   }
 
   for (let i = (cid.length) - 1; i >= 0; i--) {
-    let sumToLeft = 0
-    for (let j = i; j >= 0; j--) {
-      sumToLeft += cid[j][1];
-    }
-    if (changeDue >= currencyValues[i] && sumToLeft >= changeDue) {
-      possible = true;
-    }
+    if (changeDue >= currencyValues[i]) {
+      let sumToLeft = 0
+      for (let j = i; j >= 0; j--) {
+        sumToLeft += cid[j][1];
+      }
+      if (sumToLeft >= changeDue) {
+        possible = true;
+      }
+    }  
   }
 
   if (possible) {
@@ -94,7 +95,7 @@ const calculateChange = (customerMoney) => {
         cid[i][1] = parseFloat((quantityCurrencies[i] * currencyValues[i]).toFixed(2));
         
         console.log(changeDue)
-        changeText.innerHTML += `<p>${cid[i][0]}: $${currencyValues[i] * coinsUsed}</p>`
+        changeText.innerHTML += `<p>${cid[i][0]}: $${parseFloat(parseFloat(currencyValues[i] * coinsUsed).toFixed(2))}</p>`
         console.log(quantityCurrencies)
       } else {
         console.log(`${currencyValues[i]} no se uso`)
@@ -107,14 +108,7 @@ const calculateChange = (customerMoney) => {
   
 }
 
-
-
-
-
-
-
-
-
+// function that displays the status
 const displayStatus = () => {
   changeText.innerHTML = ''
   const totalCashInDrawer = parseFloat(cid.reduce((acc, el) => acc + el[1], 0).toFixed(2));
