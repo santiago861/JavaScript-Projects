@@ -1,9 +1,10 @@
 // return change to the customer based on the price of the item, the amount of cash provided by the customer, and the amount of cash in the cash drawer
 let price = 1.87;
 let cid = [['PENNY', 1.01], ['NICKEL', 2.05], ['DIME', 3.1], ['QUARTER', 4.25], ['ONE', 90], ['FIVE', 55], ['TEN', 20], ['TWENTY', 60], ['ONE HUNDRED', 100]];
-
+// 
 // let price = 19.5;
 // let cid = [["PENNY", 0.01], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 1], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]
+// let cid = [["PENNY", 0.5], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]
 
 const currencyValues = [0.01, 0.05, 0.1, 0.25, 1, 5, 10, 20, 100];
 const changeText = document.getElementById('change-due');
@@ -74,9 +75,6 @@ const calculateChange = (customerMoney) => {
       possible = true;
     }
   }
-  console.log(possible)
-
-
 
   if (possible) {
     for (let i = (cid.length) - 1; i >= 0; i--) {
@@ -86,7 +84,6 @@ const calculateChange = (customerMoney) => {
       if (changeDue >= currencyValues[i] && quantityCurrencies[i] != 0) { 
         console.log(cid[i][0])
         while (coinsAvailable > 0 && changeDue >= currencyValues[i]) {
-          // console.log('run')
           coinsAvailable -= 1;
           coinsUsed += 1;
   
@@ -106,7 +103,6 @@ const calculateChange = (customerMoney) => {
   } else {
     changeText.innerHTML = '';
     changeText.innerHTML += `<p>Status: INSUFFICIENT_FUNDS</p>`;
-    console.log('JAJAJAJJAJAJJAJJAJAJA')
   }
   
 }
@@ -123,8 +119,7 @@ const displayStatus = () => {
   changeText.innerHTML = ''
   const totalCashInDrawer = parseFloat(cid.reduce((acc, el) => acc + el[1], 0).toFixed(2));
   const change = parseFloat((input.value - price).toFixed(2));
-  console.log(change)
-  console.log(totalCashInDrawer)
+  
   if (totalCashInDrawer < change) {
     changeText.innerHTML += `<p>Status: INSUFFICIENT_FUNDS</p>`;
   } else if (totalCashInDrawer === change) {
