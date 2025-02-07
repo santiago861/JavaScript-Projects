@@ -14,9 +14,9 @@ const textPrice = document.getElementById('price');
 textPrice.textContent = `Total: $${price}`;
 const cidContainer = document.getElementById('cid');
 let quantityCurrencies = [];
-for (let i = 0; i < currencyValues.length; i++) {
-  quantityCurrencies.push(Math.round(cid[i][1] / currencyValues[i]));
-}
+// for (let i = 0; i < currencyValues.length; i++) {
+//   quantityCurrencies.push(Math.round(cid[i][1] / currencyValues[i]));
+// }
 
 
 
@@ -127,13 +127,22 @@ const displayStatus = () => {
 }
 
 
+const updateQuantityCurrArr = () => {
+  quantityCurrencies = []
+  for (let i = 0; i < currencyValues.length; i++) {
+    quantityCurrencies.push(Math.round(cid[i][1] / currencyValues[i]));
+  }
+}
+
+
 // Event Listeners -------------------------------------------------------------------------
 purchaseBtn.addEventListener('click', () => {
   updateScreenCashInDrawer(cid);
   if (verifyInput()) {
+    updateQuantityCurrArr();
     displayStatus()
     calculateChange(parseFloat((parseFloat(input.value)).toFixed(2)));
-    updateScreenCashInDrawer(cid);  
+    updateScreenCashInDrawer(cid);
   } else {
     console.log('invalid input')
   }
@@ -142,6 +151,7 @@ input.addEventListener('keydown', (e) => {
   if (e.key == 'Enter') {
     updateScreenCashInDrawer(cid);
     if (verifyInput()) {
+      updateQuantityCurrArr();
       displayStatus()
       calculateChange(parseFloat((parseFloat(input.value)).toFixed(2)));
       updateScreenCashInDrawer(cid);
