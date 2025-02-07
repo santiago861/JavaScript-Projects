@@ -1,10 +1,14 @@
 // return change to the customer based on the price of the item, the amount of cash provided by the customer, and the amount of cash in the cash drawer
 let price = 1.87;
 let cid = [['PENNY', 1.01], ['NICKEL', 2.05], ['DIME', 3.1], ['QUARTER', 4.25], ['ONE', 90], ['FIVE', 55], ['TEN', 20], ['TWENTY', 60], ['ONE HUNDRED', 100]];
-// 
+
+// examples for tests --------------------------------------------------------------------
+// let price = 79.93;
+// cid = [[ 'PENNY', 0 ], [ 'NICKEL', 0 ], [ 'DIME', 0.2 ], [ 'QUARTER', 0.5 ], [ 'ONE', 10 ], [ 'FIVE', 20 ], [ 'TEN', 70 ], [ 'TWENTY', 0 ], [ 'ONE HUNDRED', 1400 ] ];
 // let price = 19.5;
 // let cid = [["PENNY", 0.01], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 1], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]
 // let cid = [["PENNY", 0.5], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]
+// ---------------------------------------------------------------------------------------
 
 const currencyValues = [0.01, 0.05, 0.1, 0.25, 1, 5, 10, 20, 100];
 const changeText = document.getElementById('change-due');
@@ -14,10 +18,6 @@ const textPrice = document.getElementById('price');
 textPrice.textContent = `Total: $${price}`;
 const cidContainer = document.getElementById('cid');
 let quantityCurrencies = [];
-// for (let i = 0; i < currencyValues.length; i++) {
-//   quantityCurrencies.push(Math.round(cid[i][1] / currencyValues[i]));
-// }
-
 
 
 // Functions -------------------------------------------------------------------------
@@ -40,8 +40,6 @@ const verifyInput = () => {
   }
 }
 
-
-
 // function that updates the visual screen on the HTML
 const updateScreenCashInDrawer = (arr) => {
   cidContainer.innerHTML = '';
@@ -52,21 +50,20 @@ const updateScreenCashInDrawer = (arr) => {
 }
 updateScreenCashInDrawer(cid); // call function to see the initial balance in the cash drawer
 
-
-
-
+// function that calculates the change if it's possible
 const calculateChange = (customerMoney) => {
   let changeDue = parseFloat((customerMoney - price).toFixed(2));
-  let possible = false;
+  let possible = false; // declared to verify if it is possible to return the change
+  let changeDueString = changeDue.toString().replace('.', '');
 
-// the flag possible was declared to verify if it is possible to return the change with the denominations available
-
+  // block that checks if the customer paid with exact cash
   if (changeDue == 0) {
     possible = true;
   }
 
+  // block that verifies if there is enough money in the cash register
   for (let i = (cid.length) - 1; i >= 0; i--) {
-    if (changeDue >= currencyValues[i]) {
+    if (changeDue >= currencyValues[i] && quantityCurrencies[i] > 0) {
       let sumToLeft = 0
       for (let j = i; j >= 0; j--) {
         sumToLeft += cid[j][1];
@@ -77,6 +74,22 @@ const calculateChange = (customerMoney) => {
     }  
   }
 
+  // block that checks if it is possible to return the exact change with the denominations available
+  let count = 0
+  let possibleCount = 0
+  for (let i = (changeDueString.length) - 1; i >= 0; i--) {
+    if (parseInt(changeDueString.charAt(i)) <= quantityCurrencies[count]) {
+      possibleCount += 1;
+    }
+    count += 1;
+  }
+  if (possibleCount == changeDueString.length) {
+    possible = true;
+  } else {
+    possible = false;
+  }
+
+  // if it's possible to return the exact change, this block executes to calculate and display the change
   if (possible) {
     for (let i = (cid.length) - 1; i >= 0; i--) {
       let coinsAvailable = quantityCurrencies[i];
@@ -126,7 +139,7 @@ const displayStatus = () => {
   }
 }
 
-
+// function that updates the quantityCurrencies array
 const updateQuantityCurrArr = () => {
   quantityCurrencies = []
   for (let i = 0; i < currencyValues.length; i++) {
