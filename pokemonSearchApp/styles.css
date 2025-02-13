@@ -1,0 +1,126 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.785), rgba(0, 0, 0, 0.576)), url("background.jpg");
+    background-size: cover;
+    background-position: 0%;
+    
+}
+main {
+    height: 100vh;
+    width: 100%;
+}
+h1 {
+    margin: 20px 0px;
+    font-size: 45px;
+    font-weight: 400;
+    color: white;
+}
+
+#content {
+    width: 50%;
+    height: 100%;
+    margin: auto;
+    align-content: center;
+    text-align: center;
+}
+
+#device {
+    height: 900px;
+    width: 600px;
+    background: linear-gradient(rgb(174, 0, 0), rgb(128, 0, 0), rgb(58, 0, 0));
+    align-content: center;
+    margin: auto;
+    border-radius: 45px;
+}
+
+#screen {
+    height: 850px;
+    width: 550px;
+    background: linear-gradient(#F0F0F0FF, #F0F0F0FF, rgb(72, 72, 72));
+    margin: auto;
+    border-radius: 25px;
+}
+
+#input-container {
+    color: black;
+    border: 2px solid black;
+}
+#input-container > label {
+    display: block;
+    font-size: 23px;
+    padding: 15px;
+} 
+#search-input {
+    font-size: 23px;
+    padding: 5px 10px;
+    border-radius: 10px;
+}
+
+#search-button {
+    background-color: rgb(255, 200, 200);
+    color: red;
+    border: 2px solid red;
+    cursor: pointer;
+    font-size: 23px;
+    padding: 5px 10px;
+    border-radius: 10px;
+}
+
+
+#output-container {
+    border: 2px solid black;
+    height: 44.5%;
+}
+#img {
+    width: 100%;
+    height: 80%;
+}
+
+#info {
+    width: 100%;
+    height: 20%;
+    display: flex;
+    flex-direction: row;
+}
+
+#name-and-other {
+    text-align: left;
+    padding-left: 25px;
+    bottom: 0;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    
+}
+#pokemon-name {
+    font-size: 27px;
+    font-weight: 400;
+}
+#weight {
+    font-size: 23px;
+    font-weight: 200;
+}
+
+#types {
+    width: 50%;
+}
+
+
+
+
+
+
+
+
+
+#stats-container {
+    border: 2px solid black;
+    height: 44.5%;
+}
+

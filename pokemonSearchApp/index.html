@@ -3,10 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pokemos Search</title>
+    <title>Pokemon Search</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
+    <main>
+        <div id="content">
+            <h1>Pokemon Search</h1>
+
+            <div id="device">
+                <div id='screen'>
+                    <div id='input-container'>
+                        <label for="search-input">Search for Pokémon Name or ID:</label>
+                        <input id="search-input" type='text'>
+                        <button id="search-button">Search</button>
+                    </div>
+                    <div id="output-container">
+                        <div id="img">
+
+                        </div>
+                        <div id="info">
+                            <div id="name-and-other">
+                                <span id="pokemon-name">Name <span id="pokemon-id">#Id</span></span>
+                                <span id="weight">weight <span id="height">height</span></span>
+                            </div>
+                            <div id="types">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div id="stats-container"></div>
+                </div>
+            </div>
+        </div>
+    </main>
     
     <script src="script.js"></script>
 </body>
