@@ -3,6 +3,12 @@ const searchInput = document.getElementById('search-input');
 const searchButton = document.getElementById('search-button');
 const pokemonImage = document.getElementById('img');
 
+
+const nameSpan = document.getElementById('pokemon-name');
+const idSpan = document.getElementById('pokemon-id');
+const weightSpan = document.getElementById('weight');
+const heightSpan = document.getElementById('height');
+
 const hp = document.getElementById('hp');
 const attack = document.getElementById('attack');
 const defense = document.getElementById('defense');
@@ -10,52 +16,69 @@ const specialAttack = document.getElementById('special-attack');
 const specialDefense = document.getElementById('special-defense');
 const speed = document.getElementById('speed');
 
+const types = document.getElementById('types');
+
+const stats = [hp, attack, defense, specialAttack, specialDefense, speed];
+
 // Use the endpoint https://pokeapi-proxy.freecodecamp.rocks/api/pokemon/{name-or-id} to get 
 // data for a Pokémon, where {name-or-id} is the Pokémon's name or id number.
 // For example => 
     // https://pokeapi-proxy.freecodecamp.rocks/api/pokemon/pikachu
     // https://pokeapi-proxy.freecodecamp.rocks/api/pokemon/25
 
-const fetchData = async () => {
+const fetchData = async (url) => {
     try {
-      const res = await fetch(pokemonInfo);
+      const res = await fetch(url);
       const data = await res.json();
-      showPokemonInfo(data)
+      return data;
     } catch (err) {
       alert('Pokémon not found');
     }
-  };
+}; 
 
-const showPokemonInfo = (data) => {
-    const { results } = data;
-    const inputValue = searchInput.value;
-    const pokemonData = results[inputValue - 1];
 
-    const id = pokemonData['id']
-    const name = pokemonData['name']
-    const url = pokemonData['url']
-    pokemonImage.innerHTML = `<img src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png' alt='imagen de ${name}'>`
-    console.log(pokemonData);
-    console.log(id)
-    console.log(name)
-    console.log(url)
+
+const showPokemonInfo = async () => {
+  types.innerHTML = '';
+    try {
+      const inputValue = searchInput.value.toLowerCase();
+      console.log(inputValue)
+
+      const pokeData = await fetchData(`https://pokeapi-proxy.freecodecamp.rocks/api/pokemon/${inputValue}`);
+      console.log(pokeData); 
+
+      const id = pokeData['id'];
+      const name = pokeData['name'];
+
+      pokemonImage.innerHTML = `<img id='sprite' src='${pokeData['sprites']['front_default']}' alt='imagen de ${name}'>`
+      nameSpan.textContent = `${name.toUpperCase()} `;
+      idSpan.textContent = `#${id}`;
+      weightSpan.textContent = `Weight: ${pokeData['weight']}`;
+      heightSpan.textContent = `Height: ${pokeData['height']}`;
+
+      for (let i = 0; i < stats.length; i++) {
+        stats[i].textContent = pokeData['stats'][i]['base_stat']
+      }
+      
+      for (let i = 0; i < pokeData['types'].length; i++) {
+        types.innerHTML += `<div id='type' class='${pokeData['types'][i]['type']['name']}'>${pokeData['types'][i]['type']['name'].toUpperCase()}</div>`
+      }
+
+    } catch (err) {
+        console.log(err);
+    }
 }
-
-// {id: 23, name: 'ekans', url: 'https://pokeapi-proxy.freecodecamp.rocks/api/pokemon/23/'}
-
-
 
 
 // Event Listeners ---------------------------------------------------------------------------------------------------------
 searchButton.addEventListener('click', () => {
-    fetchData();
-    
+  showPokemonInfo();
 
 })
 
 searchInput.addEventListener('keydown', (key) => {
     if (key.code === 'Enter') {
-        fetchData();
+        showPokemonInfo();
     }
 })
 

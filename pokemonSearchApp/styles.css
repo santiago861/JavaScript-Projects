@@ -6,7 +6,7 @@
 }
 
 body {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.785), rgba(0, 0, 0, 0.576)), url("background.jpg");
+    background-image: linear-gradient(rgba(0, 0, 0, 0.785), rgba(0, 0, 0, 0.576)), url("background.jpg"); /* "https://www.chromethemer.com/download/hd-wallpapers/pokemon-3840x2160.jpg" */
     background-size: cover;
     background-position: 0%;
     
@@ -96,32 +96,42 @@ h1 {
     text-align: left;
     padding-left: 57px;
     bottom: 0;
-    width: 50%;
-    display: flex;
-    flex-direction: column;
+    width: 60%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    align-content: center;
+    gap: 1rem;
     
 }
-#pokemon-name {
-    font-size: 27px;
+#name-and-other > div {
+    align-content: center;
+}
+
+#pokemon-name, #pokemon-id {
+    font-size: 25px;
     font-weight: 400;
 }
-#weight {
-    font-size: 23px;
+#weight, #height {
+    font-size: 20px;
     font-weight: 200;
 }
 
 #types {
-    width: 50%;
+    width: 40%;
+    padding-right: 57px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: .3rem;
 }
 
-
-
-
-
-
-
-
-
+#type {
+    padding: 10px;
+    text-align: center;
+    font-size: 14px;
+    align-content: center;
+    border-radius: 7px;
+}
 #stats-container {
     height: 44%;
     width: 80%;
@@ -139,4 +149,98 @@ h1 {
     border: 2px solid rgb(255, 0, 0);
     border-radius: 10px;
     
+}
+
+
+/* pokemon types ------------------------------------------------------ */
+
+.bug {
+    border: 2px solid rgb(0, 106, 12);
+    background-color: rgb(162, 212, 169);
+    color: rgb(0, 106, 12);
+}
+.dark {
+    border: 2px solid rgb(0, 0, 0);
+    background-color: rgb(167, 167, 167);
+    color: rgb(0, 0, 0);
+}
+.dragon {
+    border: 2px solid rgb(5, 0, 164);
+    background-color: rgb(154, 152, 221);
+    color: rgb(5, 0, 164);
+}
+.electric {
+    border: 2px solid rgb(255, 255, 0);
+    background-color: rgb(255, 255, 139);
+    color: rgb(0, 0, 0);
+}
+.fairy {
+    border: 2px solid rgb(251, 0, 255);
+    background-color: rgb(252, 193, 253);
+    color: rgb(251, 0, 255);
+}
+.fighting {
+    border: 2px solid orange;
+    background-color: rgb(255, 228, 177);
+    color: rgb(0, 0, 0);
+}
+.fire {
+    border: 2px solid red;
+    background-color: rgb(255, 200, 200);
+    color: red;
+}
+.flying {
+    border: 2px solid rgb(48, 48, 84);
+    background-color: rgb(184, 184, 225);
+    color: rgb(48, 48, 84);
+}
+.ghost {
+    border: 2px solid purple;
+    background-color: rgb(250, 185, 250);
+    color: purple;
+}
+.grass {
+    border: 2px solid rgb(0, 255, 0);
+    background-color: rgb(176, 255, 176);
+    color: rgb(0, 0, 0);
+}
+.ground {
+    border: 2px solid brown;
+    background-color: rgb(216, 194, 194);
+    color: brown;
+}
+.ice {
+    border: 2px solid skyblue;
+    background-color: rgb(194, 235, 251);
+    color: rgb(0, 0, 0);
+}
+.normal {
+    border: 2px solid gray;
+    background-color: rgb(207, 207, 207);
+    color: rgb(0, 0, 0);
+}
+.poison {
+    border: 2px solid rgb(106, 0, 144);
+    background-color: rgb(209, 170, 223);
+    color: rgb(106, 0, 144);
+}
+.psychic {
+    border: 2px solid pink;
+    background-color: rgb(253, 225, 230);
+    color: black;
+}
+.rock {
+    border: 2px solid burlywood;
+    background-color: rgb(242, 218, 187);
+    color: black;
+}
+.steel {
+    border: 2px solid aquamarine;
+    background-color: rgb(196, 252, 234);
+    color: rgb(0, 0, 0);    
+}
+.water {
+    border: 2px solid aqua;
+    background-color: rgb(187, 255, 255);
+    color: black;
 }
